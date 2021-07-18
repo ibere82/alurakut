@@ -1,7 +1,5 @@
 import nookies from 'nookies';
 import { useRouter } from 'next/dist/client/router';
-import { useEffect } from 'react';
-
 
 export default function findUserPage() {
   const router = useRouter()
