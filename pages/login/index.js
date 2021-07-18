@@ -19,43 +19,16 @@ export default function LoginScreen() {
         </section>
 
         <section className="formArea">
-          <form className="box" onSubmit={(infosDoEvento) => {
-                infosDoEvento.preventDefault();
-                // alert('Alguém clicou no botão!')
-                console.log('Usuário: ', githubUser)
-                fetch('https://alurakut.vercel.app/api/login', {
-                    method: 'POST',
-                    headers: {
-                       'Content-Type': 'application/json'  
-                    },
-                    body: JSON.stringify({ githubUser: githubUser })
-                })
-                .then(async (respostaDoServer) => {
-                    const dadosDaResposta = await respostaDoServer.json()
-                    const token = dadosDaResposta.token;
-                    nookies.set(null, 'USER_TOKEN', token, {
-                        path: '/',
-                        maxAge: 86400 * 7 
-                    })
-                    router.push('/')
-                })
+          <form className="box" onSubmit={(e) => {
+            e.preventDefault();
+            router.push('/api/auth/github')
           }}>
             <p>
               Acesse agora mesmo com seu usuário do <strong>GitHub</strong>!
-          </p>
-            <input
-                placeholder="Usuário"
-                value={githubUser}
-                onChange={(evento) => {
-                    setGithubUser(evento.target.value)
-                }}
-            />
-            {githubUser.length === 0
-                ? 'Preencha o campo'
-                : ''
-            }
+            </p>
+            <br />
             <button type="submit">
-              Login
+              Faça Login com GitHub
             </button>
           </form>
 
@@ -65,7 +38,7 @@ export default function LoginScreen() {
               <a href="/login">
                 <strong>
                   ENTRAR JÁ
-              </strong>
+                </strong>
               </a>
             </p>
           </footer>
@@ -77,6 +50,6 @@ export default function LoginScreen() {
           </p>
         </footer>
       </div>
-    </main>
+    </main >
   )
-} 
+}
