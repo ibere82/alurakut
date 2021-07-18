@@ -19,10 +19,6 @@ passport.serializeUser(function (user, done) {
   done(null, user.id);
 });
 
-let sess = { cookie: { secure: true } }
-//.use(session(sess))
-//.set('trust proxy', 1)
-//  .use(session({ secret: '42', resave: true, saveUninitialized: true, cookie: { secure: true } }))
 const authGithub = nextConnect()
   .use(session({ secret: 'keyboard cat', resave: true, saveUninitialized: true, cookie: { secure: true } }))
   .use(passport.initialize())
