@@ -2,6 +2,7 @@ import passport from "passport";
 import nextConnect from "next-connect";
 import { Strategy as GitHubStrategy } from 'passport-github2';
 import session from 'express-session'
+import cookie from 'cookie'
 
 passport.use(new GitHubStrategy({
   clientID: process.env.GITHUB_CLIENT_ID,
@@ -16,22 +17,15 @@ passport.use(new GitHubStrategy({
 );
 
 passport.serializeUser(function (user, done) {
+
+  console.log('uoduiiousdaoi')
   done(null, user.id);
 });
-
-let sess = { cookie: { secure: true } }
-//.use(session(sess))
-//.set('trust proxy', 1)
-//  .use(session({ secret: '42', resave: true, saveUninitialized: true, cookie: { secure: true } }))
+//'response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fapi%2Fauth%2Fcallback&scope=user%3Aemail&client_id=29e0b92c754a43b53246'
 const authGithub = nextConnect()
-  .use(session({ secret: 'keyboard cat', resave: true, saveUninitialized: true, cookie: { secure: true } }))
   .use(passport.initialize())
-  .use(passport.session(sess))
+  .use(passport.session())
   .use(passport.authenticate('github', { scope: ['user:email'], failureRedirect: '/login' }))
-  .use('api/auth/callback', function (req, res) {
-    //console.log(req.user)
-    res.redirect('/finduser/' + req.user.id + '/' + req.user.username);
-  })
 
 
 export default authGithub;
