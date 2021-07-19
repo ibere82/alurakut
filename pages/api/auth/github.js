@@ -2,6 +2,7 @@ import passport from "passport";
 import nextConnect from "next-connect";
 import { Strategy as GitHubStrategy } from 'passport-github2';
 import session from 'express-session'
+import cookie from 'cookie'
 
 passport.use(new GitHubStrategy({
   clientID: process.env.GITHUB_CLIENT_ID,
@@ -16,18 +17,14 @@ passport.use(new GitHubStrategy({
 );
 
 passport.serializeUser(function (user, done) {
+
+  console.log('uoduiiousdaoi')
   done(null, user.id);
 });
-
 const authGithub = nextConnect()
-  .use(session({ secret: 'keyboard cat', resave: true, saveUninitialized: true, cookie: { secure: true } }))
   .use(passport.initialize())
-  .use(passport.session(sess))
+  .use(passport.session())
   .use(passport.authenticate('github', { scope: ['user:email'], failureRedirect: '/login' }))
-  .use('api/auth/callback', function (req, res) {
-    //console.log(req.user)
-    res.redirect('/finduser/' + req.user.id + '/' + req.user.username);
-  })
 
 
 export default authGithub;
