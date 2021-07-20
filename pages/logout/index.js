@@ -6,8 +6,7 @@ export default function logout() {
   const router = useRouter()
 
   useEffect(() => {
-    nookies.destroy(null, 'USER_ID')
-    nookies.destroy(null, 'USER_NAME')
+    nookies.destroy(null, 'token')
     router.push('/login')
 
   }, [])

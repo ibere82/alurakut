@@ -166,6 +166,7 @@ export default function Home({ githubID, githubUser }) {
 
 export async function getServerSideProps(ctx) {
   const cookies = nookies.get(ctx);
+  console.log('Cookies em index', cookies)
 
   const fetchUser = await fetch('https://api.github.com/user', {
     headers: {
@@ -173,7 +174,10 @@ export async function getServerSideProps(ctx) {
     }
   })
 
+
   const user = await fetchUser.json()
+  console.log(user)
+
   const githubUser = user.login
   const githubID = user.id
 
